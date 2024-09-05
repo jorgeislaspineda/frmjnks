@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flaskfrm
+  template:
+    metadata:
+      labels:
+        app: flaskfrm
+    spec:
+      containers:
+      - name: flaskfrm 
+        image: jorgeislaspineda/frmjnks:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaskfrm-service
+spec:
+  selector:
+    app: flaskfrm
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
